@@ -10,6 +10,8 @@ pico_sdk_init()
 add_executable(hx711_read
     main.cpp
     hx711_read.pio
+    HX711.cpp
+    Scale.cpp
 )
 
 pico_generate_pio_header(hx711_read ${CMAKE_CURRENT_LIST_DIR}/hx711_read.pio)

@@ -3,6 +3,9 @@
 #include "HX711.hpp"
 #include "CoffeeScale.hpp"
 
+using namespace ADC;
+using namespace CoffeeScale;
+
 struct HardwareConfiguration
 {
 public:
@@ -21,13 +24,13 @@ public:
 HardwareConfiguration hwConfig = {
     .pioInstance_ = pio0,
     .pioStateMachine_ = 0,
-    .referenceVoltage_ = 3.3,
+    .referenceVoltage_ = 3.3_V, // Use ADC::Voltage literal
     .hx711DataPin_ = 26,
     .hx711ClockPin_ = 27,
 };
 
 CoffeeScale::Calibration dummyCalibration = {
-    .referenceWeight_ = 750,
+    .referenceWeight_ = 750.0_g,
     .voltageAtReferenceWeight_ = 2.0,
 };
 

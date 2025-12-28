@@ -1,12 +1,14 @@
+#pragma once
+
 #include "hardware/pio.h"
 #include "ADC.hpp"
 
 namespace ADC
 {
-    class HX711 : IADC
+    class HX711 : public IADC
     {
     public:
-        HX711(Voltage referenceVoltage, PIO pio, uint stateMachine, uint dataPin, uint clockPin, Voltage zeroOffset = 0.0);
+        HX711(Voltage referenceVoltage, PIO pio, uint stateMachine, uint dataPin, uint clockPin, Voltage zeroOffset = 0.0_V);
         ~HX711();
         Voltage Read() override;
 

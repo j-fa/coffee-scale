@@ -1,8 +1,15 @@
+#pragma once
+
 #include "ADC.hpp"
 
 namespace CoffeeScale
 {
     using Grams = double;
+
+    constexpr Grams operator"" _g(long double val)
+    {
+        return static_cast<Grams>(val);
+    }
 
     struct Calibration
     {

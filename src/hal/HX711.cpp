@@ -3,7 +3,9 @@
 
 namespace ADC
 {
-    HX711::HX711(Voltage referenceVoltage, PIO pio, uint pioStateMachine, uint dataPin, uint clockPin, Voltage zeroOffset = 0.0)
+    static constexpr double MAX_HX711_COUNT = (1 << 24) - 1;
+
+    HX711::HX711(Voltage referenceVoltage, PIO pio, uint pioStateMachine, uint dataPin, uint clockPin, Voltage zeroOffset)
         : referenceVoltage_(referenceVoltage), zeroOffsetVoltage_(zeroOffset), pio_(pio), pioStateMachine_(pioStateMachine)
     {
         pioOffset_ = pio_add_program(pio, &hx711_read_program);
@@ -17,9 +19,9 @@ namespace ADC
 
     Voltage HX711::Read()
     {
-        Voltage maxOutputLsb = (1 << 24) - 1;
         auto sample = pio_sm_get_blocking(pio_, pioStateMachine_);
-        return sample * referenceVoltage_ / maxOutputLsb - zeroOffsetVoltage_;
+        // (Count / MaxCount) * Voltage -> Voltage
+        return (static_cast<double>(sample) / MAX_HX711_COUNT) * referenceVoltage_ - zeroOffsetVoltage_;
     }
 
     int HX711::InitPIOProgram(PIO pio, uint sm, uint offset, uint data_pin, uint clock_pin)

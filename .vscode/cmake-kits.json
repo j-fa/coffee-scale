@@ -1,0 +1,12 @@
+[
+    {
+        "name": "host",
+        "cmakeSettings": {"BUILD_TESTING": "ON"}
+        
+    },
+    {
+        "name": "pico",
+        "cmakeSettings": {"PICO_SDK_PATH": "/home/jonas/repos/pico-sdk"}
+
+    }
+]

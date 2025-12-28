@@ -1,0 +1,6 @@
+add_subdirectory(app)
+add_subdirectory(core)
+if(BUILD_PICO)
+    add_subdirectory(bsp)
+    add_subdirectory(hal)
+endif()

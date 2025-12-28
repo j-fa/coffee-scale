@@ -1,21 +1,32 @@
 cmake_minimum_required(VERSION 3.13)
-include(pico_sdk_import.cmake)
 
-project(hx711_read_project)
+# Add an option to enable/disable tests, defaulting to ON for debug builds
+option(BUILD_TESTING "Build the unit tests" OFF)
+option(BUILD_PICO "Build for Raspberry Pi Pico" OFF)
 
-enable_language(ASM)
+if (PICO_SDK_PATH AND EXISTS "${PICO_SDK_PATH}/pico_sdk_init.cmake")
+    set(BUILD_PICO ON)
+    message(STATUS "Configuring for Pico target")
+    include(${CMAKE_CURRENT_LIST_DIR}/pico_sdk_import.cmake)
+    set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+endif()
 
-pico_sdk_init()
+project(coffee_scale)
 
-add_executable(hx711_read
-    main.cpp
-    hx711_read.pio
-    HX711.cpp
-    Scale.cpp
-)
+# This logic separates the build configuration for the Pico (target)
+# from the build configuration for your host machine (for tests).
+if (BUILD_PICO)
+    # --- TARGET BUILD (for Raspberry Pi Pico) ---
+    pico_sdk_init()
+    enable_language(ASM)
 
-pico_generate_pio_header(hx711_read ${CMAKE_CURRENT_LIST_DIR}/hx711_read.pio)
-
-target_link_libraries(hx711_read pico_stdlib hardware_pio)
-
-pico_add_extra_outputs(hx711_read)
+    add_subdirectory(src)
+else()
+    # --- HOST BUILD (for running unit tests) ---
+    if(BUILD_TESTING)
+        message(STATUS "Configuring for Host build (tests)")
+        enable_testing()
+        add_subdirectory(src)  # Add src to build host-compatible libraries
+        add_subdirectory(test) # Add tests which will link against them
+    endif()
+endif()

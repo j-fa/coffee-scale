@@ -37,9 +37,10 @@ CoffeeScale::Calibration dummyCalibration = {
 int main()
 {
     ADC::HX711 adc = ADC::HX711(hwConfig.referenceVoltage_, hwConfig.pioInstance_, hwConfig.pioStateMachine_, hwConfig.hx711DataPin_, hwConfig.hx711ClockPin_);
-    CoffeeScale::CoffeeScale scale = CoffeeScale::CoffeeScale(dynamic_cast<ADC::IADC *>(&adc));
+    LoadCell loadCell = LoadCell(dynamic_cast<ADC::IADC &>(adc));
+    loadCell.SetCalibration(dummyCalibration);
 
-    scale.SetCalibration(dummyCalibration);
+    CoffeeScale::CoffeeScale scale = CoffeeScale::CoffeeScale(loadCell);
     scale.Zero();
 
     auto weight = scale.GetWeight();

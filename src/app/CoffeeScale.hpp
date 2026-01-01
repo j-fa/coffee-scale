@@ -12,7 +12,7 @@ namespace CoffeeScale
         CoffeeScale(LoadCell &loadCell) : loadCell_(loadCell) {};
         void Zero();
         Grams GetWeight();
-        Grams GetAbsoluteWeight();
+        Grams GetAbsoluteWeight() { return GetWeight() + zeroWeight_; };
         Grams GetZeroWeight() { return zeroWeight_; }
 
     private:

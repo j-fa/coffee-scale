@@ -1,3 +1,5 @@
+#pragma once
+
 namespace CoffeeScale
 {
     using Grams = double;

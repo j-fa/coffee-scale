@@ -3,6 +3,7 @@
 #include "CoffeeScale.hpp"
 
 using namespace ADC;
+using namespace CoffeeScale;
 
 class MockADC : public ADC::IADC
 {
@@ -24,6 +25,14 @@ private:
 TEST_CASE("CoffeeScale basic functionality", "[CoffeeScale]")
 {
     MockADC mockADC(0.0_V);
-    CoffeeScale::CoffeeScale scale(&mockADC);
-    scale.Zero();
+    CoffeeScale::LoadCell loadCell(mockADC);
+    CoffeeScale::Calibration dummyCalibration = {
+        .referenceWeight_ = 750.0_g,
+        .voltageAtReferenceWeight_ = 2.0,
+    };
+    loadCell.SetCalibration(dummyCalibration);
+    CoffeeScale::CoffeeScale scale(loadCell);
+    mockADC.SetVoltage(1.0_V);
+
+    REQUIRE(scale.GetWeight() == 375.0_g);
 }

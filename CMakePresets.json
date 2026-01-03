@@ -1,0 +1,100 @@
+{
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 22,
+        "patch": 1
+    },
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "pico-base",
+            "hidden": true,
+            "description": "Base configuration for Raspberry Pi Pico",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/pico/${presetName}",
+            "cacheVariables": {
+                "PICO_SDK_PATH": "${sourceParentDir}/pico-sdk"
+            }
+        },
+        {
+            "name": "native-base",
+            "hidden": true,
+            "description": "Base configuration for native Linux (host) build",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/native/${presetName}",
+            "cacheVariables": {
+                "BUILD_TESTING": "ON"
+            }
+        },
+        {
+            "name": "pico-debug",
+            "displayName": "RaspberryPi Pico (Debug)",
+            "description": "Debug build for Raspberry Pi Pico",
+            "inherits": "pico-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "pico-release",
+            "displayName": "RaspberryPi Pico (Release)",
+            "description": "Release build for Raspberry Pi Pico",
+            "inherits": "pico-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "native-debug",
+            "displayName": "Native (Debug)",
+            "description": "Debug build for native host",
+            "inherits": "native-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "native-release",
+            "displayName": "Native (Release)",
+            "description": "Release build for native host",
+            "inherits": "native-base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "pico-debug",
+            "displayName": "Build RaspberryPi Pico (Debug)",
+            "configurePreset": "pico-debug"
+        },
+        {
+            "name": "pico-release",
+            "displayName": "Build RaspberryPi Pico (Release)",
+            "configurePreset": "pico-release"
+        },
+        {
+            "name": "native-debug",
+            "displayName": "Build Native (Debug)",
+            "configurePreset": "native-debug"
+        },
+        {
+            "name": "native-release",
+            "displayName": "Build Native (Release)",
+            "configurePreset": "native-release"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "native-debug",
+            "displayName": "Run native tests (Debug)",
+            "configurePreset": "native-debug"
+        },
+        {
+            "name": "native-release",
+            "displayName": "Run native tests (Release)",
+            "configurePreset": "native-release"
+        }
+    ]
+}

@@ -1,5 +1,6 @@
 add_library(CoffeeScale
     CoffeeScale.cpp
+    LoadCell.cpp
 )
 target_link_libraries(CoffeeScale PUBLIC core)
 target_include_directories(CoffeeScale PUBLIC .)

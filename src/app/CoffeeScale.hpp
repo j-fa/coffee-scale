@@ -10,13 +10,13 @@ namespace CoffeeScale
     {
     public:
         CoffeeScale(LoadCell &loadCell) : loadCell_(loadCell) {};
-        void Zero();
-        Grams GetWeight();
-        Grams GetAbsoluteWeight() { return GetWeight() + zeroWeight_; };
-        Grams GetZeroWeight() { return zeroWeight_; }
+        void Tare();
+        Grams GetWeight() {return GetAbsoluteWeight() - tareWeight_;};
+        Grams GetAbsoluteWeight();
+        Grams GetTareWeight() { return tareWeight_; }
 
     private:
         LoadCell &loadCell_;
-        Grams zeroWeight_ = 0;
+        Grams tareWeight_ = 0.0_g;
     };
 } // namespace CoffeeScale

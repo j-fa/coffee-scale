@@ -65,7 +65,7 @@ void main_task(void *pvParameters)
     loadCell.SetCalibration(dummyCalibration);
 
     CoffeeScale::CoffeeScale scale = CoffeeScale::CoffeeScale(loadCell);
-    scale.Zero();
+    scale.Tare();
 
     while (true)
     {

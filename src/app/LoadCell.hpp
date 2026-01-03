@@ -25,7 +25,6 @@ namespace CoffeeScale
         LoadCell(IADC &adc) : adc_(adc) {};
 
         Grams ReadWeight();
-        void Calibrate(Grams referenceWeight);
         void SetCalibration(const Calibration &calibration) { calibration_ = calibration; };
         const Calibration &GetCalibration() const { return calibration_; };
 

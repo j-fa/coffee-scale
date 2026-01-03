@@ -2,13 +2,13 @@
 
 namespace CoffeeScale
 {
-    void CoffeeScale::Zero()
+    void CoffeeScale::Tare()
     {
-        zeroWeight_ = GetAbsoluteWeight();
+        tareWeight_ = GetAbsoluteWeight();
     }
 
-    Grams CoffeeScale::GetWeight()
+    Grams CoffeeScale::GetAbsoluteWeight()
     {
-        return GetAbsoluteWeight() - zeroWeight_;
+        return loadCell_.ReadWeight();
     }
 }

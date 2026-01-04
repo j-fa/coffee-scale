@@ -1,0 +1,50 @@
+@startuml Coffee Scale Classes
+
+class CoffeeScale {
+    ' - currentState_: State&
+    + StartScale(): void
+    + Tare(): void
+    + GetWeight(): Grams
+    + StartStopwatch(): void
+    + StopStopwatch(): void
+    + ResetStopwatch(): void
+    + GetElapsedTime(): Milliseconds
+}
+class LoadCell {
+    - adc_: IADC&
+    - calibration_: Calibration
+    + LoadCell(adc: IADC&)
+    + Tare(): void
+    + GetWeight(): Grams
+    + SetCalibration(calibration: Calibration): void
+    + GetCalibration(): Calibration&
+}
+struct Calibration {
+    + referenceWeight_: Grams
+    + voltageAtReferenceWeight_: Voltage
+    + voltageAtZeroWeight_: Voltage
+    + IsValid(): bool
+}
+interface IADC {
+    + {abstract} Read(): Voltage
+}
+class HX711 {
+    + HX711(...)
+    + Read(): Voltage
+}
+class Stopwatch {
+    - counter_: Milliseconds
+    + Start(): void
+    + Stop(): void
+    + Reset(): void
+    + GetElapsedTime(): Milliseconds
+}
+' abstract class State
+
+LoadCell --> IADC
+IADC <|.. HX711
+CoffeeScale "1" o-- "1" LoadCell
+CoffeeScale "1" o-- "1" Stopwatch
+' CoffeeScale "1" *-- "1.." State
+
+@enduml
